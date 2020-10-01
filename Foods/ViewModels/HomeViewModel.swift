@@ -13,8 +13,8 @@ import RxRelay
 class HomeViewModel {
     
     public var isLoadingObs: BehaviorRelay<Bool> = BehaviorRelay(value: false)
-    public var mCategories = PublishSubject<[Food]>()
-    public var mMenu = PublishSubject<[Food]>()
+    public var mCategories = PublishSubject<[FoodInfo]>()
+    public var mMenu = PublishSubject<[FoodInfo]>()
     public var errorObs: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     
     private let bag = DisposeBag()

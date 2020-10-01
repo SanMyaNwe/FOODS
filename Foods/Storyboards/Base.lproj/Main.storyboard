@@ -36,7 +36,7 @@
                                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dt5-Lt-FwE">
                                                         <rect key="frame" x="0.0" y="89" width="414" height="311"/>
                                                         <subviews>
-                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="burger" translatesAutoresizingMaskIntoConstraints="NO" id="S0v-md-2Wr">
+                                                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="S0v-md-2Wr">
                                                                 <rect key="frame" x="24" y="36" width="186.5" height="248.5"/>
                                                                 <constraints>
                                                                     <constraint firstAttribute="width" secondItem="S0v-md-2Wr" secondAttribute="height" multiplier="3:4" id="N4J-8W-eIM"/>
@@ -48,14 +48,14 @@
                                                                     <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="fillProportionally" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="tyK-dN-yOv">
                                                                         <rect key="frame" x="0.0" y="39" width="167.5" height="170.5"/>
                                                                         <subviews>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Cheese Burger" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bN6-cr-r16">
-                                                                                <rect key="frame" x="9" y="0.0" width="149" height="60"/>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Food Name" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bN6-cr-r16">
+                                                                                <rect key="frame" x="26.5" y="0.0" width="114" height="60"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
                                                                             </label>
-                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$68" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k74-74-guK">
-                                                                                <rect key="frame" x="62" y="60" width="43" height="60.5"/>
+                                                                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$0" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="k74-74-guK">
+                                                                                <rect key="frame" x="69" y="60" width="29" height="60.5"/>
                                                                                 <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="22"/>
                                                                                 <nil key="textColor"/>
                                                                                 <nil key="highlightedColor"/>
@@ -69,6 +69,9 @@
                                                                                 </constraints>
                                                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                                                 <state key="normal" image="cart" catalog="system"/>
+                                                                                <connections>
+                                                                                    <action selector="addToCart:" destination="DNK-W1-aPL" eventType="touchUpInside" id="E83-p0-DTC"/>
+                                                                                </connections>
                                                                             </button>
                                                                         </subviews>
                                                                     </stackView>
@@ -313,9 +316,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="app.badge" catalog="system" id="gUw-SG-9Rq"/>
                     <connections>
-                        <outlet property="FoodCollectionView" destination="dlU-IX-v0p" id="NRq-Bt-Vaj"/>
                         <outlet property="btnCheckOut" destination="5Yk-15-YFM" id="XES-3F-iKk"/>
                         <outlet property="checkOutView" destination="Gns-Kh-Byw" id="FBg-DD-ig3"/>
+                        <outlet property="foodCollectionView" destination="dlU-IX-v0p" id="V8c-Y1-AVX"/>
                         <outlet property="lblTotalAmount" destination="845-tR-R26" id="qFu-5i-YZO"/>
                     </connections>
                 </viewController>
@@ -352,7 +355,7 @@
                                                     <constraint firstAttribute="width" constant="75" id="NBw-hN-eJq"/>
                                                 </constraints>
                                                 <color key="tintColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                <state key="normal" image="bag" catalog="system">
+                                                <state key="normal" image="cart" catalog="system">
                                                     <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </state>
                                                 <connections>
@@ -448,9 +451,9 @@
                     </view>
                     <tabBarItem key="tabBarItem" title="" image="circle.grid.2x2.fill" catalog="system" id="Wtb-aP-H5W"/>
                     <connections>
-                        <outlet property="FoodCollectionView" destination="TcJ-9w-4fX" id="Fku-0Q-G3A"/>
                         <outlet property="btnCart" destination="q9x-EG-miF" id="Ux6-wC-AvJ"/>
                         <outlet property="foodCategoryCollectionView" destination="0hL-9B-Q32" id="00S-O1-g0o"/>
+                        <outlet property="foodCollectionView" destination="TcJ-9w-4fX" id="ghz-uj-2Ni"/>
                         <outlet property="lblMenu" destination="EUW-tD-8YY" id="hj7-Wc-CJo"/>
                         <outlet property="loadingIndicator" destination="dmz-D9-Ep3" id="EJb-Fo-ysL"/>
                         <outlet property="searchBar" destination="VBd-mg-6mx" id="lSv-Es-g1N"/>
@@ -463,12 +466,11 @@
     </scenes>
     <resources>
         <image name="app.badge" catalog="system" width="64" height="58"/>
-        <image name="bag" catalog="system" width="64" height="64"/>
-        <image name="burger" width="1200" height="1800"/>
         <image name="cart" catalog="system" width="64" height="50"/>
         <image name="chevron.left.2" catalog="system" width="64" height="52"/>
         <image name="circle.grid.2x2.fill" catalog="system" width="64" height="56"/>
         <image name="fLogo" width="626" height="626"/>
+        <image name="placeholder" width="400" height="400"/>
     </resources>
     <color key="tintColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
 </document>

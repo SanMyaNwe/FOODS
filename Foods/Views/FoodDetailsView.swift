@@ -23,10 +23,10 @@ class FoodDetailsView: UIViewController {
     @IBOutlet weak var lblDescription: UILabel!
     @IBOutlet weak var foodCollectionView: UICollectionView!
     
-    var mFood: Food? = nil
+    var mFood: FoodInfo? = nil
+    var foodInfo: FoodInfo? = nil
     
-    private let foodDetailsViewModel = FoodDetailsViewModel()
-    
+    private let mFoodDetailsViewModel = FoodDetailsViewModel()
     private let bag = DisposeBag()
     
     override func viewDidLoad() {
@@ -38,13 +38,14 @@ class FoodDetailsView: UIViewController {
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        foodDetailsViewModel
+        mFoodDetailsViewModel
             .mFoodList
             .observeOn(MainScheduler.instance)
             .subscribe(onNext: { (data) in
+                self.foodInfo = data.first
                 self.ivFood.setImage(with: data.first?.imageUrl ?? "")
                 self.lblFoodName.text = data.first?.name ?? ""
-                self.lblPrice.text = "$"+String((data.first?.price ?? 0))
+                self.lblPrice.text = String("$\(data.first?.price ?? 0)")
                 self.lblDescription.text = data.first?.description ?? ""
             })
         .disposed(by: bag)
@@ -72,13 +73,16 @@ class FoodDetailsView: UIViewController {
         foodCollectionView.contentInset = UIEdgeInsets(top: 0, left: itemPadding, bottom: 0, right: itemPadding)
         foodCollectionView.showsHorizontalScrollIndicator = false
         foodCollectionView.register(with: FoodItem.identifier)
+        
+        foodCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+        foodCollectionView.reloadData()
     }
     
     private func initDataObservations() {
         lblFoodCategory.text = mFood?.name ?? ""
-        foodDetailsViewModel.fetchFoodList(menu: mFood?.id ?? "")
+        mFoodDetailsViewModel.fetchFoodList(menu: mFood?.id ?? "")
         
-        foodDetailsViewModel
+        mFoodDetailsViewModel
             .mFoodList
             .observeOn(MainScheduler.instance)
             .bind(to: foodCollectionView.rx.items(cellIdentifier: FoodItem.identifier, cellType: FoodItem.self)) {(_, data, cell) in
@@ -88,14 +92,38 @@ class FoodDetailsView: UIViewController {
         
         foodCollectionView
             .rx
-            .modelSelected(Food.self)
+            .modelSelected(FoodInfo.self)
             .subscribe(onNext: { (data) in
+                self.foodInfo = data
                 self.ivFood.setImage(with: data.imageUrl ?? "")
                 self.lblFoodName.text = data.name ?? ""
-                self.lblPrice.text = "$"+String((data.price ?? 0))
+                self.lblPrice.text = String("$\(data.price ?? 0)")
                 self.lblDescription.text = data.description ?? ""
             })
         .disposed(by: bag)
+        
+        // LOADING
+        mFoodDetailsViewModel
+            .isLoadingObs
+            .observeOn(MainScheduler.instance)
+            .map { !$0 }
+            .bind(to: loadingIndicator.rx.isHidden)
+            .disposed(by: bag)
+        
+        // ERROR
+        mFoodDetailsViewModel
+            .errorObs
+            .observeOn(MainScheduler.instance)
+            .subscribe(onNext: { error in
+                print(error ?? "")
+        })
+        .disposed(by: bag)
+    }
+    
+    @IBAction func addToCart(_ sender: Any) {
+        self.btnCart.alpha = 0.75
+        mFoodDetailsViewModel.addToCart(food: foodInfo!)
+        self.btnCart.alpha = 1
     }
     
     @IBAction func onClickBack(_ sender: Any) {

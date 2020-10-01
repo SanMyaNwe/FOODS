@@ -10,5 +10,5 @@ import Foundation
 
 struct FoodListResponse: Codable {
     
-    var result: [Food]?
+    var result: [FoodInfo]?
 }

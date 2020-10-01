@@ -44,7 +44,7 @@
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="VOB-SC-QZX">
                                 <rect key="frame" x="0.0" y="102" width="319" height="203.5"/>
                                 <subviews>
-                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="burger" translatesAutoresizingMaskIntoConstraints="NO" id="Qvk-Q3-iMm">
+                                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="Qvk-Q3-iMm">
                                         <rect key="frame" x="57.5" y="0.0" width="204" height="203.5"/>
                                         <constraints>
                                             <constraint firstAttribute="width" secondItem="Qvk-Q3-iMm" secondAttribute="height" multiplier="1:1" id="1ld-dp-KOK"/>
@@ -62,7 +62,7 @@
                                 <rect key="frame" x="0.0" y="305.5" width="319" height="203.5"/>
                                 <subviews>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6H9-Ar-mvN">
-                                        <rect key="frame" x="74.5" y="67.5" width="50" height="50"/>
+                                        <rect key="frame" x="49.5" y="67.5" width="50" height="50"/>
                                         <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="WkQ-7G-TUa"/>
@@ -77,18 +77,18 @@
                                         </connections>
                                     </button>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="1" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnz-ee-yz9">
-                                        <rect key="frame" x="144.5" y="78" width="30" height="29"/>
+                                        <rect key="frame" x="119.5" y="78" width="80" height="29"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="30" id="NGf-yk-Udw"/>
+                                            <constraint firstAttribute="width" constant="80" id="NGf-yk-Udw"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="system" pointSize="24"/>
                                         <nil key="textColor"/>
                                         <nil key="highlightedColor"/>
                                     </label>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$12" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="tk6-Tk-uLe">
-                                        <rect key="frame" x="119.5" y="24" width="80" height="31.5"/>
+                                        <rect key="frame" x="59.5" y="24" width="200" height="31.5"/>
                                         <constraints>
-                                            <constraint firstAttribute="width" constant="80" id="QIS-ht-qy7"/>
+                                            <constraint firstAttribute="width" constant="200" id="QIS-ht-qy7"/>
                                         </constraints>
                                         <fontDescription key="fontDescription" type="boldSystem" pointSize="26"/>
                                         <nil key="textColor"/>
@@ -108,7 +108,7 @@
                                         </connections>
                                     </button>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Yn-zX-wvb">
-                                        <rect key="frame" x="192.5" y="67.5" width="50" height="50"/>
+                                        <rect key="frame" x="217.5" y="67.5" width="50" height="50"/>
                                         <color key="backgroundColor" systemColor="systemOrangeColor" red="1" green="0.58431372550000005" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="50" id="Mmf-dh-Soz"/>
@@ -183,7 +183,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="burger" width="1200" height="1800"/>
+        <image name="placeholder" width="400" height="400"/>
         <image name="trash" catalog="system" width="60" height="64"/>
     </resources>
 </document>

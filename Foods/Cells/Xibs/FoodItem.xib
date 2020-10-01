@@ -16,26 +16,36 @@
                 <rect key="frame" x="0.0" y="0.0" width="126" height="140"/>
                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                 <subviews>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="burger" translatesAutoresizingMaskIntoConstraints="NO" id="7uB-kV-LBN">
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="placeholder" translatesAutoresizingMaskIntoConstraints="NO" id="7uB-kV-LBN">
                         <rect key="frame" x="0.0" y="0.0" width="126" height="140"/>
                     </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Menu" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8l5-vy-icv">
+                        <rect key="frame" x="16" y="16" width="94" height="20.5"/>
+                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
+                        <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
                 </subviews>
             </view>
             <constraints>
                 <constraint firstAttribute="trailing" secondItem="7uB-kV-LBN" secondAttribute="trailing" id="5gb-qK-tev"/>
                 <constraint firstItem="7uB-kV-LBN" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" id="Wa3-cW-Vq3"/>
+                <constraint firstAttribute="trailing" secondItem="8l5-vy-icv" secondAttribute="trailing" constant="16" id="Ypf-zR-4f7"/>
                 <constraint firstItem="7uB-kV-LBN" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" id="f39-D4-6m3"/>
+                <constraint firstItem="8l5-vy-icv" firstAttribute="top" secondItem="gTV-IL-0wX" secondAttribute="top" constant="16" id="fNg-vc-KUo"/>
                 <constraint firstAttribute="bottom" secondItem="7uB-kV-LBN" secondAttribute="bottom" id="s8c-Tw-9Xb"/>
+                <constraint firstItem="8l5-vy-icv" firstAttribute="leading" secondItem="gTV-IL-0wX" secondAttribute="leading" constant="16" id="t6n-8s-OgW"/>
             </constraints>
             <viewLayoutGuide key="safeArea" id="ZTg-uK-7eu"/>
             <size key="customSize" width="126" height="140"/>
             <connections>
                 <outlet property="ivFood" destination="7uB-kV-LBN" id="ORx-hO-O85"/>
+                <outlet property="lblMenu" destination="8l5-vy-icv" id="aDJ-vW-kHF"/>
             </connections>
             <point key="canvasLocation" x="-110" y="58"/>
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="burger" width="1200" height="1800"/>
+        <image name="placeholder" width="400" height="400"/>
     </resources>
 </document>

@@ -21,9 +21,21 @@ class CartItem: UICollectionViewCell {
     @IBOutlet weak var lblPrice: UILabel!
     @IBOutlet weak var btnRemove: UIButton!
     
+    var mFood: Food? = nil
+    
+    private var price: Double = 0
+    private var quantities: Double = 0
+    var totalAmount: Double = 0
+    
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
+    }
+    
+    func bind(with food: Food) {
+        lblFood.text = food.name
+        ivFood.setImage(with: food.imageUrl ?? "")
+        lblPrice.text = String("$ \(food.price)")
     }
     
     private func configure() {
@@ -42,26 +54,39 @@ class CartItem: UICollectionViewCell {
     }
     
     @IBAction func reduceQuantity(_ sender: Any) {
+        
         var qty = Int(quantity.text!) ?? 0
         if qty > 1 {
             qty -= 1
+            
+            quantities = Double(qty)
+            price = quantities * (mFood?.price ?? 0)
+            totalAmount += price
+            
             quantity.text = String(qty)
-            // TODO price of item instead of 12
-            lblPrice.text = String("$\(qty * 12)")
+            lblPrice.text = String("$ \(price)")
+            totalAmount = 0
         }
     }
     
     @IBAction func addQuantity(_ sender: Any) {
+        
         var qty = Int(quantity.text!) ?? 0
         // TODO limit NoOfQuantity instead of 10
         if qty < 10 {
             qty += 1
+            
+            quantities = Double(qty)
+            price = quantities * (mFood?.price ?? 0)
+            totalAmount += price
+            
             quantity.text = String(qty)
-            // TODO price of item instead of 12
-            lblPrice.text = String("$\(qty * 12)")
+            lblPrice.text = String("$ \(price)")
+            totalAmount = 0
         }
     }
     
     @IBAction func removeItemFromCart(_ sender: Any) {
+        FoodPersistenceService.shared.removeFromCart(name: mFood?.name ?? "")
     }
 }
