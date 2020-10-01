@@ -12,7 +12,8 @@ import RxRelay
 
 class FoodDetailsViewModel {
     
-    public var mFoodList = PublishSubject<[Food]>()
+    public var isLoadingObs: BehaviorRelay<Bool> = BehaviorRelay(value: false)
+    public var mFoodList = PublishSubject<[FoodInfo]>()
     public var errorObs: BehaviorRelay<String?> = BehaviorRelay(value: nil)
     
     private let bag = DisposeBag()
@@ -20,15 +21,26 @@ class FoodDetailsViewModel {
     private let foodModel = FoodModel()
     
     func fetchFoodList(menu: String) {
-    foodModel
-        .fetchFoodList(endpoint: .getFoodList, menu: menu)
-        .subscribeOn(ConcurrentDispatchQueueScheduler(queue: .global()))
-        .subscribe(onNext: { (data) in
-            self.mFoodList.onNext(data.result ?? [])
-        }, onError: { (error) in
-            self.errorObs.accept(error.localizedDescription)
-            
-        })
-    .disposed(by: bag)
+        isLoadingObs.accept(true)
+        foodModel
+            .fetchFoodList(endpoint: .getFoodList, menu: menu)
+            .subscribeOn(ConcurrentDispatchQueueScheduler(queue: .global()))
+            .subscribe(onNext: { (data) in
+                self.isLoadingObs.accept(false)
+                self.mFoodList.onNext(data.result ?? [])
+            }, onError: { (error) in
+                self.isLoadingObs.accept(false)
+                self.errorObs.accept(error.localizedDescription)
+                
+            })
+        .disposed(by: bag)
+        }
+    
+    func addToCart(food: FoodInfo) {
+        FoodPersistenceService.shared.addToCart(food: food)
+    }
+    
+    func removeFromCart(name: String) {
+        FoodPersistenceService.shared.removeFromCart(name: name)
     }
 }

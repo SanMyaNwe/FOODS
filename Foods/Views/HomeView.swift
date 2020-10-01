@@ -9,12 +9,13 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import AVFoundation
 
 class HomeView: UIViewController {
     
     static let identifier = "HomeView"
     
-    @IBOutlet weak var FoodCollectionView: UICollectionView!
+    @IBOutlet weak var foodCollectionView: UICollectionView!
     @IBOutlet weak var btnCart: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var lblMenu: UILabel!
@@ -24,18 +25,25 @@ class HomeView: UIViewController {
     private let mHomeViewModel = HomeViewModel()
     private let bag = DisposeBag()
     
+    private var mMenu: [FoodInfo] = []
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         configure()
         setUpFoodCategoryCollectionView()
         setUpFoodCollectionView()
         initDataObservations()
-        mHomeViewModel.isLoadingObs.value
     }
+    
+//    override func viewWillAppear(_ animated: Bool) {
+//        super.viewWillAppear(animated)
+//        let indexPathForFirstRow = IndexPath(row: 0, section: 0)
+//        foodCategoryCollectionView.selectItem(at: indexPathForFirstRow as IndexPath, animated: false, scrollPosition: .right)
+//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
-        self.mHomeViewModel.fetchMenu(category: "food")
+        mHomeViewModel.fetchMenu(category: "food")
     }
     
     private func configure() {
@@ -51,7 +59,7 @@ class HomeView: UIViewController {
         let totalPadding: CGFloat = itemPadding * ( noOfitems + 1 )
         let itemWidth: CGFloat = ( screenSize.width - totalPadding ) / noOfitems
         let itemHeight: CGFloat = itemWidth * ( 4 / 3 )
-        
+
         let layout = UICollectionViewFlowLayout()
         layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
         layout.scrollDirection = .horizontal
@@ -61,26 +69,20 @@ class HomeView: UIViewController {
         foodCategoryCollectionView.showsHorizontalScrollIndicator = false
         foodCategoryCollectionView.register(with: FoodCategoryItem.identifier)
         foodCategoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: itemPadding, bottom: 0, right: itemPadding)
+        
+//        let indexPathForFirstRow = IndexPath(row: 0, section: 0)
+        foodCategoryCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
+        foodCategoryCollectionView.reloadData()
     }
     
     private func setUpFoodCollectionView() {
-        let screenSize: CGSize = self.view.bounds.size
-        let noOfItems: CGFloat = 2
-        let itemPadding: CGFloat = 24
-        let totalPadding: CGFloat = ( noOfItems + 1 ) * itemPadding
-        let itemWidth: CGFloat = ( screenSize.width - totalPadding ) / noOfItems
-        let itemHeight: CGFloat = 200
         
-        let layout = UICollectionViewFlowLayout()
-        layout.scrollDirection = .vertical
-        layout.itemSize = CGSize(width: itemWidth, height: itemHeight)
-        layout.minimumInteritemSpacing = 0
-        layout.minimumLineSpacing = itemPadding
+        let dynamicLayout = DynamicLayout()
+        dynamicLayout.delegate = self
         
-        FoodCollectionView.setCollectionViewLayout(layout, animated: true)
-        FoodCollectionView.showsVerticalScrollIndicator = false
-        FoodCollectionView.contentInset = UIEdgeInsets(top: 0, left: itemPadding, bottom: 0, right: itemPadding)
-        FoodCollectionView.register(with: FoodItem.identifier)
+        foodCollectionView.setCollectionViewLayout(dynamicLayout, animated: true)
+        foodCollectionView.showsVerticalScrollIndicator = false
+        foodCollectionView.register(with: FoodItem.identifier)
     }
     
     private func initDataObservations() {
@@ -98,7 +100,7 @@ class HomeView: UIViewController {
         // DISPLAY MENU BY CATEGORY
         foodCategoryCollectionView
             .rx
-            .modelSelected(Food.self)
+            .modelSelected(FoodInfo.self)
             .subscribe(onNext: { (data) in
                 self.lblMenu.text = String((data.name ?? "")+" Menu")
                 self.mHomeViewModel.fetchMenu(category: data.id)
@@ -108,15 +110,26 @@ class HomeView: UIViewController {
         mHomeViewModel
             .mMenu
             .observeOn(MainScheduler.instance)
-            .bind(to: FoodCollectionView.rx.items(cellIdentifier: FoodItem.identifier, cellType: FoodItem.self)) { _, data, cell in
+            .subscribe (onNext: {(data) in
+                self.mMenu = data
+                DispatchQueue.main.async {
+                    self.foodCollectionView.reloadData()
+                }
+            })
+            .disposed(by: bag)
+        
+        mHomeViewModel
+            .mMenu
+            .observeOn(MainScheduler.instance)
+            .bind(to: foodCollectionView.rx.items(cellIdentifier: FoodItem.identifier, cellType: FoodItem.self)) { _, data, cell in
                 cell.bind(with: data)
             }
             .disposed(by: bag)
         
         // PRESENT DETAILS VIEW
-        FoodCollectionView
+        foodCollectionView
             .rx
-            .modelSelected(Food.self)
+            .modelSelected(FoodInfo.self)
             .subscribe(onNext: { (data) in
                 let sb = UIStoryboard(name: "Main", bundle: nil)
                 let vc = sb.instantiateViewController(withIdentifier: FoodDetailsView.identifier) as! FoodDetailsView
@@ -150,5 +163,15 @@ class HomeView: UIViewController {
         vc.modalPresentationStyle = .overCurrentContext
         self.show(vc, sender: self)
     }
-    
+}
+
+extension HomeView: DynamicLayoutDelegate {
+    func collecionView(collecionView: UICollectionView, photoHeightForItemAt indexPath: IndexPath, width: CGFloat) -> CGFloat {
+        let imageUrlString = mMenu[indexPath.item].imageUrl ?? ""
+        let imageUrl = URL(string: imageUrlString)!
+        let imageData = try? Data(contentsOf: imageUrl)
+        let image = UIImage(data: imageData ?? Data())
+        
+        return image?.height(width: width) ?? 150
+    }
 }
