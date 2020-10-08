@@ -35,7 +35,7 @@ class HomeView: UIViewController {
         configure()
         setUpFoodCategoryCollectionView()
         setUpFoodCollectionView()
-//        initDataObservations()
+        initDataObservations()
     }
     
     override func viewDidAppear(_ animated: Bool) {
