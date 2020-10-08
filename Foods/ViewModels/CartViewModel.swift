@@ -14,8 +14,10 @@ class CartViewModel {
     
     public var isLoadingObs: BehaviorRelay<Bool> = BehaviorRelay(value: false)
     public var mFoodList = PublishSubject<[Food]>()
+    public var mTotalAmountObs: BehaviorRelay<Double> = BehaviorRelay(value: 0)
     
     private let bag = DisposeBag()
+    private var totalAmount: Double = 0
     
     init() {
         FoodPersistenceService.shared.listenOn(self)
@@ -28,8 +30,14 @@ class CartViewModel {
             .subscribe(onNext: { (data) in
                 self.isLoadingObs.accept(false)
                 self.mFoodList.onNext(data)
+                data.forEach { (food) in
+                    self.totalAmount += food.price
+                }
             })
         .disposed(by: bag)
+        
+        mTotalAmountObs.accept(totalAmount)
+        
     }
 }
 

@@ -9,6 +9,8 @@
 import UIKit
 import RxSwift
 import RxCocoa
+import FacebookCore
+import FacebookLogin
 
 class CartView: UIViewController {
     
@@ -22,8 +24,8 @@ class CartView: UIViewController {
     private let mCartViewModel = CartViewModel()
     private let bag = DisposeBag()
     
-    private var price: Double = 0
     private var totalAmount: Double = 0
+    private var userProfile: Profile!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,16 +68,64 @@ class CartView: UIViewController {
             .observeOn(MainScheduler.instance)
             .bind(to: foodCollectionView.rx.items(cellIdentifier: CartItem.identifier, cellType: CartItem.self)) {(_, data, cell) in
                 cell.mFood = data
-                cell.bind(with: data)
-                self.price += data.price
+                cell.bind(with: data, mCartViewModel: self.mCartViewModel)
             }
         .disposed(by: bag)
         
         mCartViewModel.fetchFoodListFromCart()
         
-        print(self.price)
-        totalAmount += price
-        lblTotalAmount.text = String("$\(totalAmount)")
+        mCartViewModel
+            .mTotalAmountObs
+            .subscribe(onNext: { (data) in
+                self.lblTotalAmount.text = String("$"+String(format: "%.2f", data))
+        })
+        .disposed(by: bag)
+        
+    }
+    
+    private func loginWithFacebook() {
+        
+        if let _ = AccessToken.current {
+            
+            self.showOrderConfirmMessage()
+        } else {
+            Constants.loginManager.logIn(permissions: ["public_profile","email"], viewController: self) { (result) in
+                switch result {
+                case .success(_, _, _):
+                    self.showOrderConfirmMessage()
+                case .failed(let error):
+                    print(error.localizedDescription)
+                case .cancelled:
+                    break
+                }
+            }
+        }
+    }
+    
+    private func showOrderConfirmMessage() {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: CustomAlertView.identifier)
+        vc.modalPresentationStyle = .overCurrentContext
+        self.present(vc, animated: false, completion: nil)
+    }
+    
+    @IBAction func onClickCheckOut(_ sender: Any) {
+        
+        let alert = UIAlertController(title: "Do you want to allow?",
+                                      message: "This app need to access your basic profile to complete your order.",
+                                      preferredStyle: .alert)
+        
+        let btnAllow = UIAlertAction(title: "Allow", style: .default) { _ in
+            self.loginWithFacebook()
+        }
+        
+        let btnNotAllow = UIAlertAction(title: "Don't Allow",
+                                        style: .cancel,
+                                        handler: nil)
+        
+        alert.addAction(btnAllow)
+        alert.addAction(btnNotAllow)
+        self.present(alert, animated: true)
     }
     
     @IBAction func onClickBack(_ sender: Any) {

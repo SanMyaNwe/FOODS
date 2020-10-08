@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import RxRelay
 
 class CartItem: UICollectionViewCell {
     
@@ -23,19 +24,21 @@ class CartItem: UICollectionViewCell {
     
     var mFood: Food? = nil
     
-    private var price: Double = 0
+    private var amount: Double = 0
     private var quantities: Double = 0
-    var totalAmount: Double = 0
+    
+    private var mViewModel = CartViewModel()
     
     override func awakeFromNib() {
         super.awakeFromNib()
         configure()
     }
     
-    func bind(with food: Food) {
+    func bind(with food: Food, mCartViewModel: CartViewModel) {
         lblFood.text = food.name
         ivFood.setImage(with: food.imageUrl ?? "")
         lblPrice.text = String("$ \(food.price)")
+        mViewModel = mCartViewModel
     }
     
     private func configure() {
@@ -53,19 +56,20 @@ class CartItem: UICollectionViewCell {
         btnRemove.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMaxYCorner]
     }
     
+    private func calculateItemAmount() {
+        amount = quantities * (mFood?.price ?? 0)
+        quantity.text = String(Int(quantities))
+        lblPrice.text = String("$"+String(format: "%.2f", amount))
+    }
+    
     @IBAction func reduceQuantity(_ sender: Any) {
-        
+
         var qty = Int(quantity.text!) ?? 0
         if qty > 1 {
             qty -= 1
-            
             quantities = Double(qty)
-            price = quantities * (mFood?.price ?? 0)
-            totalAmount += price
-            
-            quantity.text = String(qty)
-            lblPrice.text = String("$ \(price)")
-            totalAmount = 0
+            calculateItemAmount()
+            mViewModel.mTotalAmountObs.accept(mViewModel.mTotalAmountObs.value - (mFood?.price ?? 0))
         }
     }
     
@@ -75,14 +79,9 @@ class CartItem: UICollectionViewCell {
         // TODO limit NoOfQuantity instead of 10
         if qty < 10 {
             qty += 1
-            
             quantities = Double(qty)
-            price = quantities * (mFood?.price ?? 0)
-            totalAmount += price
-            
-            quantity.text = String(qty)
-            lblPrice.text = String("$ \(price)")
-            totalAmount = 0
+            calculateItemAmount()
+            mViewModel.mTotalAmountObs.accept(mViewModel.mTotalAmountObs.value + (mFood?.price ?? 0))
         }
     }
     

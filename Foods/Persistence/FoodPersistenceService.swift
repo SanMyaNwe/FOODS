@@ -60,6 +60,19 @@ class FoodPersistenceService {
         }
     }
     
+    func formatCart() {
+        let fetchRequest: NSFetchRequest<Food> = Food.fetchRequest()
+        
+        do {
+            let result = try viewContext.fetch(fetchRequest)
+            result.forEach { (food) in
+                viewContext.delete(food)
+            }
+        } catch {
+            print("Format Error...")
+        }
+    }
+    
     func save() {
         PersistenceService.shared.saveContext()
         
