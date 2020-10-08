@@ -33,7 +33,7 @@ class FoodDetailsView: UIViewController {
         super.viewDidLoad()
         configure()
         setUpFoodCollectionView()
-        initDataObservations()
+//        initDataObservations()
     }
     
     override func viewDidAppear(_ animated: Bool) {

@@ -10,12 +10,15 @@ import UIKit
 import RxSwift
 import RxCocoa
 import AVFoundation
+import FacebookLogin
+import FacebookCore
 
 class HomeView: UIViewController {
     
     static let identifier = "HomeView"
     
     @IBOutlet weak var foodCollectionView: UICollectionView!
+    @IBOutlet weak var btnProfile: UIButton!
     @IBOutlet weak var btnCart: UIButton!
     @IBOutlet weak var searchBar: UISearchBar!
     @IBOutlet weak var lblMenu: UILabel!
@@ -32,14 +35,8 @@ class HomeView: UIViewController {
         configure()
         setUpFoodCategoryCollectionView()
         setUpFoodCollectionView()
-        initDataObservations()
+//        initDataObservations()
     }
-    
-//    override func viewWillAppear(_ animated: Bool) {
-//        super.viewWillAppear(animated)
-//        let indexPathForFirstRow = IndexPath(row: 0, section: 0)
-//        foodCategoryCollectionView.selectItem(at: indexPathForFirstRow as IndexPath, animated: false, scrollPosition: .right)
-//    }
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(true)
@@ -47,7 +44,8 @@ class HomeView: UIViewController {
     }
     
     private func configure() {
-        btnCart.layer.cornerRadius = 16
+        btnProfile.layer.cornerRadius = 22.5
+        btnCart.layer.cornerRadius = 22.5
         searchBar.layer.cornerRadius = 16
         searchBar.backgroundImage = UIImage()
     }
@@ -70,7 +68,6 @@ class HomeView: UIViewController {
         foodCategoryCollectionView.register(with: FoodCategoryItem.identifier)
         foodCategoryCollectionView.contentInset = UIEdgeInsets(top: 0, left: itemPadding, bottom: 0, right: itemPadding)
         
-//        let indexPathForFirstRow = IndexPath(row: 0, section: 0)
         foodCategoryCollectionView.selectItem(at: IndexPath(row: 0, section: 0), animated: false, scrollPosition: .centeredHorizontally)
         foodCategoryCollectionView.reloadData()
     }
@@ -135,7 +132,7 @@ class HomeView: UIViewController {
                 let vc = sb.instantiateViewController(withIdentifier: FoodDetailsView.identifier) as! FoodDetailsView
                 vc.modalPresentationStyle = .fullScreen
                 vc.mFood = data
-                self.present(vc, animated: true, completion: nil)
+                self.present(vc, animated: false, completion: nil)
             })
             .disposed(by: bag)
         
@@ -157,11 +154,38 @@ class HomeView: UIViewController {
         .disposed(by: bag)
     }
     
+    @IBAction func onClickUserProfile(_ sender: Any) {
+        let sb = UIStoryboard(name: "Main", bundle: nil)
+        if let _ = AccessToken.current {
+            let vc = sb.instantiateViewController(withIdentifier: UserProfileAlertView.identifier)
+            vc.modalPresentationStyle = .overCurrentContext
+            self.present(vc, animated: false, completion: nil)
+        } else {
+            let dialog = sb.instantiateViewController(withIdentifier: FacebookLoginAlertView.identifier) as! FacebookLoginAlertView
+            dialog.modalPresentationStyle = .overCurrentContext
+            self.present(dialog, animated: false, completion: nil)
+            dialog.onLogin = {
+                Constants.loginManager.logIn(permissions: ["public_profile","email"], viewController: self) { (result) in
+                    switch result {
+                    case .success(_, _, _):
+                        let vc = sb.instantiateViewController(withIdentifier: UserProfileAlertView.identifier) as! UserProfileAlertView
+                        vc.modalPresentationStyle = .overCurrentContext
+                        self.present(vc, animated: false, completion: nil)
+                    case .failed(let error):
+                        print(error.localizedDescription)
+                    case .cancelled:
+                        break
+                    }
+                }
+            }
+        }
+    }
+    
     @IBAction func onClickCart(_ sender: Any) {
         let sb = UIStoryboard(name: "Main", bundle: nil)
         let vc = sb.instantiateViewController(withIdentifier: CartView.identifier)
-        vc.modalPresentationStyle = .overCurrentContext
-        self.show(vc, sender: self)
+        vc.modalPresentationStyle = .fullScreen
+        self.present(vc, animated: false, completion: nil)
     }
 }
 

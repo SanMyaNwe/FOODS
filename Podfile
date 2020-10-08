@@ -10,5 +10,7 @@ target 'Foods' do
 	pod 'RxSwift'
 	pod 'RxCocoa'
 	pod 'SDWebImage'
+	pod 'FacebookCore'
+	pod 'FacebookLogin'
 
 end

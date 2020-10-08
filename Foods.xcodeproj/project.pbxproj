@@ -25,6 +25,10 @@
 		3C71B20925237E9B00C873DA /* FoodPersistenceService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C71B20825237E9B00C873DA /* FoodPersistenceService.swift */; };
 		3C71B20B25237F6800C873DA /* FoodPersistenceListener.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C71B20A25237F6800C873DA /* FoodPersistenceListener.swift */; };
 		3C71B20D2523849400C873DA /* CartViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C71B20C2523849400C873DA /* CartViewModel.swift */; };
+		3C74F716252C2D75006E2E97 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74F715252C2D75006E2E97 /* Constants.swift */; };
+		3C74F718252C53F4006E2E97 /* CustomAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74F717252C53F4006E2E97 /* CustomAlertView.swift */; };
+		3C74F71A252C8D60006E2E97 /* UserProfileAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74F719252C8D60006E2E97 /* UserProfileAlertView.swift */; };
+		3C74F71C252C93E4006E2E97 /* FacebookLoginAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C74F71B252C93E4006E2E97 /* FacebookLoginAlertView.swift */; };
 		3C8E7AE8251BA46E00445780 /* Api.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E7AE7251BA46E00445780 /* Api.swift */; };
 		3C8E7AEA251BA48100445780 /* ApiService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E7AE9251BA48100445780 /* ApiService.swift */; };
 		3C8E7AEC251BA49000445780 /* Endpoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C8E7AEB251BA49000445780 /* Endpoint.swift */; };
@@ -60,6 +64,10 @@
 		3C71B20825237E9B00C873DA /* FoodPersistenceService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPersistenceService.swift; sourceTree = "<group>"; };
 		3C71B20A25237F6800C873DA /* FoodPersistenceListener.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodPersistenceListener.swift; sourceTree = "<group>"; };
 		3C71B20C2523849400C873DA /* CartViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CartViewModel.swift; sourceTree = "<group>"; };
+		3C74F715252C2D75006E2E97 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		3C74F717252C53F4006E2E97 /* CustomAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomAlertView.swift; sourceTree = "<group>"; };
+		3C74F719252C8D60006E2E97 /* UserProfileAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProfileAlertView.swift; sourceTree = "<group>"; };
+		3C74F71B252C93E4006E2E97 /* FacebookLoginAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FacebookLoginAlertView.swift; sourceTree = "<group>"; };
 		3C8E7AE7251BA46E00445780 /* Api.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Api.swift; sourceTree = "<group>"; };
 		3C8E7AE9251BA48100445780 /* ApiService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ApiService.swift; sourceTree = "<group>"; };
 		3C8E7AEB251BA49000445780 /* Endpoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Endpoint.swift; sourceTree = "<group>"; };
@@ -98,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				3C5EC8A22521A8B60009870B /* FoodInfo.swift */,
+				3C74F715252C2D75006E2E97 /* Constants.swift */,
 			);
 			path = VOs;
 			sourceTree = "<group>";
@@ -176,6 +185,9 @@
 				3CA2EC5A25150B7900940C11 /* HomeView.swift */,
 				3C68BF45251609DC00FB6A63 /* CartView.swift */,
 				3C2176A1251741600055E742 /* FoodDetailsView.swift */,
+				3C74F717252C53F4006E2E97 /* CustomAlertView.swift */,
+				3C74F719252C8D60006E2E97 /* UserProfileAlertView.swift */,
+				3C74F71B252C93E4006E2E97 /* FacebookLoginAlertView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -413,6 +425,7 @@
 				3C6321652525770300E9D7AE /* UIImage++.swift in Sources */,
 				3CA2EC5B25150B7900940C11 /* HomeView.swift in Sources */,
 				3C68BF46251609DC00FB6A63 /* CartView.swift in Sources */,
+				3C74F71C252C93E4006E2E97 /* FacebookLoginAlertView.swift in Sources */,
 				3C5EC8A92521A96A0009870B /* HomeViewModel.swift in Sources */,
 				3C68BF4B2516138D00FB6A63 /* CartItem.swift in Sources */,
 				3C71B20725237E4700C873DA /* PersistenceService.swift in Sources */,
@@ -422,6 +435,7 @@
 				3CA2EC5D2515113900940C11 /* UICollectionView++.swift in Sources */,
 				3CA2EC3A2514FE1B00940C11 /* SceneDelegate.swift in Sources */,
 				3C8E7AEC251BA49000445780 /* Endpoint.swift in Sources */,
+				3C74F71A252C8D60006E2E97 /* UserProfileAlertView.swift in Sources */,
 				3C8E7AEA251BA48100445780 /* ApiService.swift in Sources */,
 				3C5EC8A52521A9140009870B /* FoodListResponse.swift in Sources */,
 				3CA2EC64251517DC00940C11 /* FoodCategoryItem.swift in Sources */,
@@ -429,10 +443,12 @@
 				3C431D382524E50E00D0070D /* DynamicLayout.swift in Sources */,
 				3C2176A2251741600055E742 /* FoodDetailsView.swift in Sources */,
 				3C71B20B25237F6800C873DA /* FoodPersistenceListener.swift in Sources */,
+				3C74F718252C53F4006E2E97 /* CustomAlertView.swift in Sources */,
 				3C8E7AE8251BA46E00445780 /* Api.swift in Sources */,
 				3C71B20525237CC300C873DA /* FoodDB.xcdatamodeld in Sources */,
 				3C5EC8AB2521EA680009870B /* UIImageView++.swift in Sources */,
 				3CA2EC602515138600940C11 /* FoodItem.swift in Sources */,
+				3C74F716252C2D75006E2E97 /* Constants.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -583,7 +599,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kyawsawthu.Foods;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanmyanwe.Foods;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -601,7 +617,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.kyawsawthu.Foods;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sanmyanwe.Foods;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
